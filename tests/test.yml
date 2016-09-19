@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - million12.docker
+    - { role: million12.docker, tags: ['install'] }
