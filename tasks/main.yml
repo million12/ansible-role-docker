@@ -1,0 +1,23 @@
+---
+# tasks file for million12.docker
+- name: Add Docker Repository
+  copy: src=docker.repo dest=/etc/yum.repos.d/docker.repo
+
+- name: Install latest stable version
+  yum: name=docker-engine state=present
+
+- copy: src=docker.service dest=/usr/lib/systemd/system/docker.service
+
+- name: Install docker-python for ansible interaction
+  yum: name=docker-python state=present
+
+- name: Add docker.socket file
+  copy: src=docker.socket dest=/usr/lib/systemd/system/docker.socket
+- name: Enable docker.socket
+  raw: systemctl enable docker && systemctl start docker
+
+- name: Making sure docker daemon is running.
+  service:
+    name: docker
+    enabled: yes
+    state: started
